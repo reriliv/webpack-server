@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'antd';
 import Test from 'components/Test';
-import { COUNTER_INCREMENT, COUNTER_DECREMENT } from 'models/counter/actions';
+import { COUNTER_INCREMENT, COUNTER_DECREMENT } from 'models/counter';
 
 const IndexPage = ({ count, increment, decrement }) => {
   return (
     <Test>
-      Hello World!
       <Button onClick={() => decrement(count)}>Decrement</Button>
-      {count}
+      <span>{count}</span>
       <Button onClick={() => increment(count)}>Increment</Button>
     </Test>
   );

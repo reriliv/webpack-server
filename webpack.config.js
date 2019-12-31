@@ -9,11 +9,13 @@ module.exports = {
   },
   devServer: {
     contentBase: path.resolve(__dirname, 'dist'),
+    hot: true,
+    historyApiFallback: true,
     compress: true,
     port: 3000,
     host: '0.0.0.0',
   },
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   /*plugins: [
     new WebpackHtmlPlugin(),
   ],*/
