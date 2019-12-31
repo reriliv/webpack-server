@@ -1,7 +1,7 @@
 {
   "name": "webpack-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "this is a webpack server",
   "main": "index.js",
   "scripts": {
     "test": "jest",
