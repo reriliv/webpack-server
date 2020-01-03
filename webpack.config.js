@@ -1,5 +1,6 @@
-// const WebpackHtmlPlugin = require('webpack-html-plugin');
 const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: path.resolve(__dirname, 'index.js'),
@@ -14,11 +15,16 @@ module.exports = {
     compress: true,
     port: 3000,
     host: '0.0.0.0',
+    // writeToDisk: true,
   },
   devtool: 'inline-source-map',
-  /*plugins: [
-    new WebpackHtmlPlugin(),
-  ],*/
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      hash: true,
+      template: './src/index.html',
+    }),
+  ],
   module: {
     rules: [{
       test: /\.css$/,
@@ -36,6 +42,7 @@ module.exports = {
           cacheDirectory: true,
           plugins: [
             ["import", {"libraryName": "antd", "style": "css"}],
+            ["@babel/transform-runtime"]
           ]
         },
       },
@@ -45,6 +52,7 @@ module.exports = {
     alias: {
       "components": path.resolve(__dirname, "src/components"),
       "models": path.resolve(__dirname, 'src/models'),
+      "react-dom": "@hot-loader/react-dom",
     },
   },
 };

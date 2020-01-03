@@ -14,9 +14,7 @@ const IndexPage = ({ count, increment, decrement }) => {
   );
 };
 
-const mapStateToProps = ({ counter: { count } }) => ({
-  count,
-});
+const mapStateToProps = ({ counter: { count } }) => ({ count });
 
 const mapDispatchToProps = (dispatch) => ({
   increment: (count) => dispatch({
