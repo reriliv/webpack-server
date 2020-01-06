@@ -18,13 +18,13 @@ const mapStateToProps = ({ counter: { count } }) => ({ count });
 
 const mapDispatchToProps = (dispatch) => ({
   increment: (count) => dispatch({
-    type: COUNTER_INCREMENT,
+    type: 'COUNTER/INCREMENT_ASYNC',
     payload: {
       count: count + 1,
     },
   }),
   decrement: (count) => dispatch({
-    type: COUNTER_DECREMENT,
+    type: 'COUNTER/DECREMENT_ASYNC',
     payload: {
       count: count - 1,
     },

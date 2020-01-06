@@ -2,11 +2,12 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: path.resolve(__dirname, 'index.js'),
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[hash:8].js',
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
@@ -16,21 +17,36 @@ module.exports = {
     compress: true,
     port: 3000,
     host: '0.0.0.0',
+    before(app) {
+      console.log(app);
+    },
     // writeToDisk: true,
   },
   devtool: 'inline-source-map',
   plugins: [
     new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
     new HtmlWebpackPlugin({
       hash: true,
       template: './src/index.html',
     }),
-    new MiniCssExtractPlugin(),
   ],
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          compress: true,
+        },
+      }),
+    ],
+  },
   module: {
     rules: [{
       test: /\.css$/,
-      use: [MiniCssExtractPlugin.loader, 'style-loader', 'css-loader'],
+      use: [MiniCssExtractPlugin.loader, 'css-loader'],
     }, {
       test: /\.js$/,
       exclude: /node_modules/,
