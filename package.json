@@ -7,8 +7,8 @@
     "test": "jest",
     "test-cover": "jest --coverage",
     "test-watch": "jest --watchAll",
-    "dev": "webpack-dev-server --color --hot",
-    "build": "webpack --color"
+    "dev": "webpack-dev-server --color --hot --progress --inline",
+    "build": "webpack --color --progress --inline"
   },
   "keywords": [],
   "author": "",
@@ -41,6 +41,7 @@
     "@hot-loader/react-dom": "^16.11.0",
     "antd": "^3.26.5",
     "babel-plugin-import": "^1.13.0",
+    "mockjs": "^1.1.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.1.3",
