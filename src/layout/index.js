@@ -2,7 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Layout, Breadcrumb } from 'antd';
 import { ToolBar, SideBar } from 'components';
+import courseSchema from 'schemas/courseSchema';
 // import styles from './index.css';
+
+const electron = window.require('electron');
+const { ipcRenderer } = electron;
+
+ipcRenderer.send('connection', '123');
+
+ipcRenderer.on('connect-success', (event, db) => {
+  console.log('received');
+  // console.log(db);
+  const courseModel = db.model('course', courseSchema);
+  console.log(courseModel);
+});
 
 const { Content } = Layout;
 
@@ -49,16 +62,11 @@ const BasicLayout = ({
   );
 };
 
-/*const mapStateToProps = ({ layout: { databases, currentDatabase, currentCollection } }) => ({
+const mapStateToProps = ({ layout: { databases, currentDatabase, currentCollection } }) => ({
   databases,
   currentDatabase,
   currentCollection
-});*/
-
-const mapStateToProps = (state) => {
-  console.log(state);
-  return {};
-};
+});
 
 const mapDispatchToProps = (dispatch) => ({
   updateDatabases: (databases) => dispatch({
