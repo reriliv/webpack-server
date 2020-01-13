@@ -1,52 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'antd';
-import Test from 'components/Test';
-import { COUNTER_INCREMENT, COUNTER_DECREMENT } from 'models/counter';
+import { Table } from 'antd';
+// import styles from './index.css';
 
-const IndexPage = ({ count, increment, decrement }) => {
-  const [list, setList] = useState([]);
+const Index = ({
+  currentCollection,
+  dataList
+}) => {
+  const [columns, setColumns] = useState([]);
+  const [dataSource, setDataSource] = useState([]);
 
   useEffect(() => {
-    if (!list.length) {
-      fetch('/api/test', {
-        method: 'GET',
-      }).then(res => {
-        if (res.ok) {
-          return res.json();
+    if (dataList[currentCollection]) {
+      const newDataSource = [];
+      dataList[currentCollection].forEach((item, index) => {
+        newDataSource.push({ ...item, key: index });
+        if (!index) {
+          const keys = Object.keys(item);
+          const newColumns = keys.map(key => {
+            return { key, title: key, dataIndex: key, textWrap: 'word-break', ellipsis: true };
+          });
+          setColumns(newColumns);
         }
-      }).then(res => {
-        console.log(res);
-      }).catch(err => {
-        console.error(err);
       });
+      setDataSource(newDataSource);
     }
-  }, [list]);
-
+  }, [dataList, currentCollection, columns.length]);
   return (
-    <Test>
-      <Button onClick={() => decrement(count)}>Decrement</Button>
-      <span>{count}</span>
-      <Button onClick={() => increment(count)}>Increment</Button>
-    </Test>
+    <Table
+      bordered={true}
+      columns={columns}
+      dataSource={dataSource}
+    />
   );
 };
 
-const mapStateToProps = ({ counter: { count } }) => ({ count });
-
-const mapDispatchToProps = (dispatch) => ({
-  increment: (count) => dispatch({
-    type: 'COUNTER/INCREMENT_ASYNC',
-    payload: {
-      count: count + 1,
-    },
-  }),
-  decrement: (count) => dispatch({
-    type: 'COUNTER/DECREMENT_ASYNC',
-    payload: {
-      count: count - 1,
-    },
-  }),
+const mapStateToProps = ({ layout: { currentCollection, dataList } }) => ({
+  currentCollection,
+  dataList
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(IndexPage);
+export default connect(mapStateToProps)(Index);
