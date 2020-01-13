@@ -12,6 +12,7 @@ db.on('error', (e) => {
 
 db.once('open', (callback) => {
   console.log('已连接数据库');
+  console.log(db);
 });
 
 module.exports = db;

@@ -1,6 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const db = require('./db/connect');
-console.log(db);
 
 let win;
 
