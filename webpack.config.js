@@ -3,6 +3,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const mockServer = require('./mock-server');
 
 module.exports = {
   entry: path.resolve(__dirname, 'index.js'),
@@ -18,7 +19,14 @@ module.exports = {
     port: 3000,
     host: '0.0.0.0',
     before(app) {
-      // console.log(app);
+      mockServer(app);
+    },
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:8080',
+        changeOrigin: true,
+        pathRewrite: { '^/api': '' }
+      }
     },
     // writeToDisk: true,
   },

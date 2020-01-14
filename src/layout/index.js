@@ -4,16 +4,6 @@ import { Layout, Breadcrumb } from 'antd';
 import { ToolBar, SideBar } from 'components';
 // import styles from './index.css';
 
-const electron = window.require('electron');
-const { ipcRenderer } = electron;
-
-ipcRenderer.send('connection', '123');
-
-ipcRenderer.on('connect-success', (event, db) => {
-  console.log('received');
-  console.log(db);
-});
-
 const { Content } = Layout;
 
 const BasicLayout = ({

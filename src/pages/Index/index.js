@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import { Table } from 'antd';
 // import styles from './index.css';
 
-const Index = ({
-  currentCollection,
-  dataList
-}) => {
+const Index = ({ currentCollection, dataList }) => {
   const [columns, setColumns] = useState([]);
   const [dataSource, setDataSource] = useState([]);
 
@@ -26,6 +23,7 @@ const Index = ({
       setDataSource(newDataSource);
     }
   }, [dataList, currentCollection, columns.length]);
+
   return (
     <Table
       bordered={true}
