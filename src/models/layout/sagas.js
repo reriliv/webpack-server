@@ -1,5 +1,6 @@
 import { delay, put, takeEvery } from 'redux-saga/effects';
 import {
+  LAYOUT_GETDATABASES,
   LAYOUT_SETDATABASES,
   LAYOUT_SETDATALIST,
   LAYOUT_UPDATEDATABASES,
@@ -7,7 +8,31 @@ import {
   LAYOUT_UPDATEDATALIST,
 } from './actions';
 
-export function* setDatabases({ type, payload }) {
+function* getDatabases() {
+  const res = yield fetch('/api/v1/databases', {
+    method: 'GET'
+  }).then(res => {
+    if (res.ok) {
+      return res.json();
+    }
+  }).then(data => {
+    if (data.status === 200) {
+      // setDatabases(data.data);
+      /*put({
+        type: LAYOUT_SETDATABASES,
+        payload: {
+          databases: data.data,
+        }
+      });*/
+      return data;
+    }
+  }).catch(err => {
+    console.error(err);
+  });
+  console.log(res);
+}
+
+function* setDatabases({ type, payload }) {
   yield put({
     type: LAYOUT_UPDATEDATABASES,
     payload,
@@ -24,7 +49,7 @@ export function* setDatabases({ type, payload }) {
   });
 }
 
-export function* setDataList({ type, payload: { collections, dataList } }) {
+function* setDataList({ type, payload: { collections, dataList } }) {
   const newDataList = Object.assign({}, dataList);
   collections.forEach(collection => {
     newDataList[collection] = [];
@@ -37,13 +62,10 @@ export function* setDataList({ type, payload: { collections, dataList } }) {
   });
 }
 
-export function* watch() {
+function* watch() {
+  yield takeEvery(LAYOUT_GETDATABASES, getDatabases);
   yield takeEvery(LAYOUT_SETDATABASES, setDatabases);
   yield takeEvery(LAYOUT_SETDATALIST, setDataList);
 }
 
-export default {
-  setDatabases,
-  setDataList,
-  watch,
-};
+export default { watch };

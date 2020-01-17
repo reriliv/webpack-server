@@ -2,18 +2,19 @@ import React, { useEffect } from 'react';
 import { Select } from 'antd';
 import { connect } from 'react-redux';
 
+import {
+  LAYOUT_GETDATABASES,
+  LAYOUT_SETDATABASES,
+  LAYOUT_SELECTDATABASE,
+} from 'models/layout';
+
 const { Option } = Select;
 
-const SelectBar = ({
-  databases,
-  setDatabases,
-  selectDatabase,
-  currentDatabase
-}) => {
-
+const SelectBar = ({ databases, getDatabases, setDatabases, selectDatabase, currentDatabase }) => {
   useEffect(() => {
     if (!databases.length) {
-      fetch('/api/v1/databases', {
+      getDatabases();
+      /*fetch('/api/v1/databases', {
         method: 'GET'
       }).then(res => {
         if (res.ok) {
@@ -25,7 +26,7 @@ const SelectBar = ({
         }
       }).catch(err => {
         console.error(err);
-      });
+      });*/
     }
   }, [databases.length, setDatabases]);
 
@@ -60,14 +61,17 @@ const mapStateToProps = ({ layout: { databases, currentDatabase } }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  getDatabases: () => dispatch({
+    type: LAYOUT_GETDATABASES,
+  }),
   setDatabases: (databases) => dispatch({
-    type: 'layout/setDatabases',
+    type: LAYOUT_SETDATABASES,
     payload: {
       databases
     }
   }),
   selectDatabase: (currentDatabase) => dispatch({
-    type: 'layout/selectDatabase',
+    type: LAYOUT_SELECTDATABASE,
     payload: {
       currentDatabase
     }
