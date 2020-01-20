@@ -27,10 +27,11 @@ const LayoutReducer = (state = initialState, { type, payload }) => {
         collections: payload.collections,
       };
     case LAYOUT_SELECTDATABASE:
+      const { currentDatabase } = payload;
       return {
         ...state,
-        currentDatabase: payload.currentDatabase,
-        currentCollection: ''
+        currentDatabase,
+        currentCollection: '',
       };
     case LAYOUT_SELECTCOLLECTION:
       return {

@@ -2,45 +2,25 @@ import React, { useEffect } from 'react';
 import { Layout, Menu } from 'antd';
 import { connect } from 'react-redux';
 // import styles from './style.css';
+import {
+  LAYOUT_GETDATALIST, LAYOUT_GETCOLLECTIONS, LAYOUT_SELECTCOLLECTION,
+} from 'models/layout';
 
 const { Sider } = Layout;
 
 const SideBar = ({
-  collections,
-  currentDatabase,
-  setCollections,
-  currentCollection,
-  selectCollection,
-  dataList,
-  setDataList,
-  updateDataList
+  collections, currentDatabase, getCollections, currentCollection, selectCollection, dataList, getDataList, updateDataList,
 }) => {
-
   useEffect(() => {
     if (collections[currentDatabase] && !collections[currentDatabase].length) {
-      fetch(`/api/v1/database/${currentDatabase}/collections`, {
-        method: 'GET'
-      }).then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-      }).then(res => {
-        if (res.status === 200) {
-          const newCollections = Object.assign({}, collections);
-          const list = res.data;
-          newCollections[currentDatabase] = list;
-          setCollections(newCollections);
-          setDataList(list, dataList);
-        }
-      }).catch(err => {
-        console.error(err);
-      });
+      getCollections(currentDatabase, collections, dataList);
     }
-  }, [collections, currentDatabase, dataList, setCollections, setDataList]);
+  }, [collections, currentDatabase, dataList, getCollections]);
 
   useEffect(() => {
     if (dataList[currentCollection] && !dataList[currentCollection].length) {
-      fetch(`/api/v1/database/${currentDatabase}/collection/${currentCollection}`, {
+      getDataList(currentDatabase, currentCollection, dataList);
+      /*fetch(`/api/v1/database/${currentDatabase}/collection/${currentCollection}`, {
         method: 'GET'
       }).then(res => {
         if (res.ok) return res.json();
@@ -51,7 +31,7 @@ const SideBar = ({
         updateDataList(newDataList);
       }).catch(err => {
         console.err(err);
-      });
+      });*/
     }
   }, [currentCollection, currentDatabase, dataList, updateDataList]);
 
@@ -74,30 +54,30 @@ const SideBar = ({
   );
 };
 
-const mapStateToProps = ({ layout: {
-  collections,
-  currentDatabase,
-  currentCollection,
-  dataList
-} }) => ({
-  collections,
-  currentDatabase,
-  currentCollection,
-  dataList
+const mapStateToProps = ({ layout: { collections, currentDatabase, currentCollection, dataList } }) => ({
+  collections, currentDatabase, currentCollection, dataList,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setCollections: (collections) => dispatch({
-    type: 'layout/updateCollections',
+  getCollections: (currentDatabase, collections, dataList) => dispatch({
+    type: LAYOUT_GETCOLLECTIONS,
     payload: {
-      collections
-    }
+      currentDatabase,
+      collections,
+      dataList,
+    },
   }),
   selectCollection: (currentCollection) => dispatch({
-    type: 'layout/selectCollection',
+    type: LAYOUT_SELECTCOLLECTION,
     payload: {
       currentCollection
     }
+  }),
+  getDataList: (currentDatabase, currentCollection, dataList) => dispatch({
+    type: LAYOUT_GETDATALIST,
+    payload: {
+      currentDatabase, currentCollection, dataList,
+    },
   }),
   updateDataList: (dataList) => dispatch({
     type: 'layout/updateDataList',
@@ -105,13 +85,6 @@ const mapDispatchToProps = (dispatch) => ({
       dataList
     }
   }),
-  setDataList: (collections, dataList) => dispatch({
-    type: 'layout/setDataList',
-    payload: {
-      collections,
-      dataList
-    }
-  })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

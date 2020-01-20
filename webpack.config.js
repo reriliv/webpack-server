@@ -80,7 +80,7 @@ module.exports = {
       "models": path.resolve(__dirname, 'src/models'),
       "__mock__": path.resolve(__dirname, '__mock__'),
       "react-dom": "@hot-loader/react-dom",
-      "schemas": path.resolve(__dirname, 'src/schemas'),
+      "utils": path.resolve(__dirname, 'src/utils'),
     },
   },
 };

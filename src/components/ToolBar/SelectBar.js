@@ -14,19 +14,6 @@ const SelectBar = ({ databases, getDatabases, setDatabases, selectDatabase, curr
   useEffect(() => {
     if (!databases.length) {
       getDatabases();
-      /*fetch('/api/v1/databases', {
-        method: 'GET'
-      }).then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-      }).then(data => {
-        if (data.status === 200) {
-          setDatabases(data.data);
-        }
-      }).catch(err => {
-        console.error(err);
-      });*/
     }
   }, [databases.length, setDatabases]);
 
