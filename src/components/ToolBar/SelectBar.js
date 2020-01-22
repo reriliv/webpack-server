@@ -3,10 +3,8 @@ import { Select } from 'antd';
 import { connect } from 'react-redux';
 
 import {
-  LAYOUT_GETDATABASES,
-  LAYOUT_SETDATABASES,
-  LAYOUT_SELECTDATABASE,
-} from 'models/layout';
+  LAYOUT_GETDATABASES, LAYOUT_SETDATABASES, LAYOUT_SELECTDATABASE,
+} from 'models/layout/actions';
 
 const { Option } = Select;
 

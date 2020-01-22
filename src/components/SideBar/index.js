@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // import styles from './style.css';
 import {
   LAYOUT_GETDATALIST, LAYOUT_GETCOLLECTIONS, LAYOUT_SELECTCOLLECTION,
-} from 'models/layout';
+} from 'models/layout/actions';
 
 const { Sider } = Layout;
 
